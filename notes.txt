@@ -1,0 +1,8 @@
+SOURCE: YouTube video: Are you debugging JavaScript in VSCode? | You should!
+
+1. npm install -g live-server
+    run live-server in terminal: live-server
+
+2. run and debug > webapp(Chrome)
+    launch.json will open up with some configuration. if we press f5 to debug and select "Launch Chrome against local host". We must select a debug point firs then we 
+    can step thru.
