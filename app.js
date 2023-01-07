@@ -90,16 +90,35 @@ document.title = "Chrome Debugger";
         console.log(c);
     })();
 
-    (() => {
+    (() => { /// Value type. primitives are copied by theier value
+        let x = 10; console.log("x:", x);
+        let y = x; console.log("y:", y);
+        x = 20; console.log(`x after reasignment: ${x}`);
+        console.log(`y after x's reasignment to 20: ${y}`);
+    })();
 
+    (() => { /// Value type. objects are copied by their reference
+        let x = {value: 10}; console.log(`x: ${x.value}`);
+        let y = x; console.log(`y: ${y.value}`);
+        x.value = 20; console.log( `x after reasignment: ${x.value}`)
+        console.log(`y after x reasignment to 20: ${y.value}`);
+
+        let number = 10;
+        const increase = number => {
+            number++
+        }
+        increase(number);
+        console.log(number);
     })();
 
     (() => {
-        
-    })();
-
-    (() => {
-        
+        let number = {value: 10};
+        const increase = number => {
+            number.value++;
+        }
+        console.log(`number: ${number.value}`)
+        increase(number);
+        console.log(number);
     })();
 
 })()
