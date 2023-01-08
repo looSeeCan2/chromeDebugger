@@ -102,7 +102,10 @@ document.title = "Chrome Debugger";
         let y = x; console.log(`y: ${y.value}`);
         x.value = 20; console.log( `x after reasignment: ${x.value}`)
         console.log(`y after x reasignment to 20: ${y.value}`);
+        y.value = 21; console.log(y); console.log(x);
+    })();
 
+    (() => {
         let number = 10;
         const increase = number => {
             number++
@@ -122,7 +125,39 @@ document.title = "Chrome Debugger";
     })();
 
     (() => {
-        /// when I try to push a committ. I get an error about my settings. I went and unchecked the  "Require approval of the most recent push"
-    })()
+        function Circle(radius) {
+            this.radius = radius;
+            this.draw = function() {
+                console.log("draw");
+            }
+        }
+        const circle1 = new Circle(1);
+        console.log("circle1:", circle1);
+        circle1.location = {x: 1, y: 0};
+        delete circle1.location;
+        circle1.location = {x: 1, y: 0};
+        
+        /// enumerate over object
+        for(const key in circle1) {
+            if(typeof circle1[key] !== "function") console.log(key, circle1[key]); 
+        }
+        const keys = Object.keys(circle1);
+        console.log(keys);
+    })();
+
+    (() => {
+        function Circle(radius) {
+            this.radius = radius;
+            this.defaultLocation = {x: 0, y: 1};
+            this.computeOptimumLocation = function() {
+                console.log("optimum");
+            }
+            this.draw = function() {
+                console.log("draw");
+            }
+        }
+        const circle2 = new Circle(2);
+        console.log(circle2);
+    })();
 
 })()
