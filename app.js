@@ -121,4 +121,8 @@ document.title = "Chrome Debugger";
         console.log(number);
     })();
 
+    (() => {
+        /// when I try to push a committ. I get an error about my settings. I went and unchecked the  "Require approval of the most recent push"
+    })()
+
 })()
