@@ -160,4 +160,79 @@ document.title = "Chrome Debugger";
         console.log(circle2);
     })();
 
+    (() => {
+        function Circle(radius) {
+            this.radius = radius;
+            let defaultLocation = {x: 0, y:0}
+            
+            let computeOptimumLocation = function() {
+                console.log("optimum");
+            }
+            this.draw = function() {
+                console.log("draw");
+                computeOptimumLocation();
+                console.log(defaultLocation);
+                console.log(this.radius);
+            }
+        }
+        
+        const circle3 = new Circle(3);
+        console.log(circle3);
+        circle3.draw();
+    })();
+
+    (() => {
+        function Circle(radius) {
+            this.radius = radius;
+            //declare private members of the object
+            let defaultLocation = {x: 0, y:0};
+            let computeOptimumLocation = function() {
+                console.log("optimuml");
+            }
+
+            this.getDefaultLocation = function() {
+                return defaultLocation;
+            }
+            this.draw = function() {
+                console.log("draw");
+                computeOptimumLocation();
+                console.log(defaultLocation);
+            }
+        }
+        const circle4 = new Circle(4);
+        console.log(circle4);
+        circle4.draw();
+        console.log(circle4.getDefaultLocation());
+    })();
+
+
+    (() => { /// an example of getters and setters that chat gpt gave me
+        function Person(firstName, lastName) {
+            this._firstName = firstName;
+            this._lastName = lastName;
+        }
+
+            Object.defineProperty(Person.prototype, 'fullName', {
+            get: function() {
+                return `${this._firstName} ${this._lastName}`;
+            },
+            set: function(name) {
+                const parts = name.split(' ');
+                this._firstName = parts[0];
+                this._lastName = parts[1];
+            },
+            });
+
+            const person = new Person('John', 'Doe');
+            console.log(person.fullName); // Outputs: "John Doe"
+
+            person.fullName = 'Jane Doe';
+            console.log(person.fullName); // Outputs: "Jane Doe"
+    })();
+
+    (() => { /// TODO: use the ^ and instead of the getters and setters, use just regular functions instead. Ask chatGPT what the diff is
+        
+    })();
+
+
 })()
