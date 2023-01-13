@@ -188,50 +188,88 @@ document.title = "Chrome Debugger";
             let defaultLocation = {x: 0, y:0};
             let computeOptimumLocation = function() {
                 console.log("optimuml");
-            }
+            };
 
-            this.getDefaultLocation = function() {
-                return defaultLocation;
-            }
+            Object.defineProperty(this, "defaultLocationProperty", {
+                get: function() {
+                    return defaultLocation;
+                }
+            });
+
             this.draw = function() {
                 console.log("draw");
                 computeOptimumLocation();
                 console.log(defaultLocation);
-            }
+            };
         }
         const circle4 = new Circle(4);
         console.log(circle4);
         circle4.draw();
-        console.log(circle4.getDefaultLocation());
+        console.log(circle4.defaultLocationProperty);
     })();
 
+    (() => { /// try getters and setters on a factory function
+        const factoryFunctionCircle = (radius) => {
+            let defaultLocation = {x: 0, y: 0}
+            let computeOptimumLocation = () => console.log("computeOptimumLocation");
+            
+            const circle = {
+                radius,
+                draw() {
+                    console.log("draw");
+                    computeOptimumLocation();
+                },
+            }
+            
+            Object.defineProperty(circle, "defaultLocationProperty", {
+                get: function() {
+                    return defaultLocation;
+                }, /// TODO: setters /// NOTE * right before this note I tried to solve the push issue by unchecking the first check in the protection rule. It worked,
+                /// it let me push on the terminal without giving me an error. ?? Do I have to make another branch??
+            });
+            
+            return circle;
+        };
+
+
+        const factoryCircle1 = factoryFunctionCircle(1);
+        console.log(factoryCircle1);
+        factoryCircle1.draw();
+        factoryCircle1.defaultLocationProperty;
+    })();
 
     (() => { /// an example of getters and setters that chat gpt gave me
         function Person(firstName, lastName) {
             this._firstName = firstName;
             this._lastName = lastName;
         }
-
-            Object.defineProperty(Person.prototype, 'fullName', {
+        
+        Object.defineProperty(Person.prototype , 'fullName', {
             get: function() {
                 return `${this._firstName} ${this._lastName}`;
             },
+            
             set: function(name) {
                 const parts = name.split(' ');
                 this._firstName = parts[0];
                 this._lastName = parts[1];
             },
-            });
+            
+        });
+        
+        const person = new Person('John', 'Doe');
+        console.log(person);
+        console.log(person.fullName); // Outputs: "John Doe"
 
-            const person = new Person('John', 'Doe');
-            console.log(person.fullName); // Outputs: "John Doe"
-
-            person.fullName = 'Jane Doe';
-            console.log(person.fullName); // Outputs: "Jane Doe"
+        person.fullName = 'Jane Doe';
+        console.log(person.fullName); // Outputs: "Jane Doe"
     })();
 
     (() => { /// TODO: use the ^ and instead of the getters and setters, use just regular functions instead. Ask chatGPT what the diff is
-        
+        function Person(firstName, lastName) {
+            this.firstName;
+            this.lastName;
+        }
     })();
 
 
