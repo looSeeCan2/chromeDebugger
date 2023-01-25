@@ -272,5 +272,51 @@ document.title = "Chrome Debugger";
         }
     })();
 
+    (() => {
+        function StopWatch() {
+            let startTime, endTime, running, duration = 0;
+            
+            this.start = function () {
+                if(running) throw new Error("StopWatch has already started");
+                
+                running = true;
+                startTime = new Date();
+                console.log(startTime);
+            };
+
+            this.stop = function() {
+                if(!running) throw new Error("Stopwatch is not started");
+
+                running = false;
+                endTime = new Date();
+                // console.log(endTime);
+
+                const seconds = (endTime.getTime() - startTime.getTime()) / 1000;
+                duration += seconds;
+                console.log(seconds);
+                console.log(duration);
+            };
+
+            this.reset = function() {
+                startTime = null;
+                endTime = null;
+                running = false;
+                duration = 0;
+            };
+
+            Object.defineProperty(this, "duration", {//a read only property called duration
+                get: function() {
+                    return duration;
+                }
+            });
+        };
+        
+        const go = new StopWatch();
+        go.start();
+        go.stop();
+        
+
+    })();
+
 
 })()
