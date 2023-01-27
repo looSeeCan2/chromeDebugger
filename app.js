@@ -265,14 +265,59 @@ document.title = "Chrome Debugger";
         console.log(person.fullName); // Outputs: "Jane Doe"
     })();
 
-    (() => { /// TODO: use the ^ and instead of the getters and setters, use just regular functions instead. Ask chatGPT what the diff is
+    (() => { /// TODO: compare ^ without the get and only the set
         function Person(firstName, lastName) {
-            this.firstName;
-            this.lastName;
+            this._firstName = firstName;
+            this._lastName = lastName;
         }
+
+        Object.defineProperty(Person.prototype, "fullname", {
+            get: function() {
+                return `When the set method is called (person.fullname), the method executes some code to change the value of the given
+                    variable, the get method returns what the setter has executed: ${this._firstName} ${this._lastName}`;
+            },
+            set: function(name) {
+                const parts = name.split(" ");
+                this._firstName = parts[0];
+                this._lastName = parts[1];
+            }
+        });
+
+        const person = new Person("Jane Doe");
+        console.log(person);
+        person.fullname = "Jane Doe";
+        console.log(person.fullname);
+        console.log(person); /// with this example, it fixed the lastName from undefined to "Doe"
+    })();
+
+    (() => { ///TODO: another example
+        function BankAccount(balance) {
+            this.balance = balance;
+
+            Object.defineProperties(this, {
+                newBalance: {
+                    get:function() {
+                        return this.balance;
+                    },
+                    set: function(value) {
+                        this.balance += value;
+                    }
+                },
+                
+            });
+        } 
+        console.log(BankAccount);
+        const deposit1 = new BankAccount(100); 
+        console.log(deposit1);
+        deposit1.newBalance = 1;
+        console.log(deposit1.newBalance);
+        deposit1.newBalance = 1;
+        console.log(deposit1.balance);
+        console.log(deposit1);
     })();
 
     (() => {
+        
         function StopWatch() {
             let startTime, endTime, running, duration = 0;
             
@@ -314,9 +359,6 @@ document.title = "Chrome Debugger";
         const go = new StopWatch();
         go.start();
         go.stop();
-        
-
     })();
-
 
 })()
