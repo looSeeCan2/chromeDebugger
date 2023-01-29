@@ -255,7 +255,7 @@ document.title = "Chrome Debugger";
                 this._lastName = parts[1];
             },
             
-        });
+        }); 
         
         const person = new Person('John', 'Doe');
         console.log(person);
@@ -265,10 +265,10 @@ document.title = "Chrome Debugger";
         console.log(person.fullName); // Outputs: "Jane Doe"
     })();
 
-    (() => { /// TODO: compare ^ without the get and only the set
+    (() => { /// TODO: use the ^ and instead of the getters and setters, use just regular functions instead. Ask chatGPT what the diff is
         function Person(firstName, lastName) {
-            this._firstName = firstName;
-            this._lastName = lastName;
+            this.firstName;
+            this.lastName;
         }
 
         Object.defineProperty(Person.prototype, "fullname", {
@@ -295,7 +295,7 @@ document.title = "Chrome Debugger";
             this.balance = balance;
 
             Object.defineProperties(this, {
-                setBalance: {
+                setBalance: { /// git test
                     // get: function() {/// TODO: i did not really need this get here. I can just call the balance up there.
                                         /// but I do see that I need this get to return a value that the set calculates.
                     //     return this.balance;
@@ -341,7 +341,7 @@ document.title = "Chrome Debugger";
         testTransaction1.balance = 58;
         console.log(testTransaction1.balance);
     })();
-            
+
     (() => {
         
         function StopWatch() {
@@ -385,6 +385,9 @@ document.title = "Chrome Debugger";
         const go = new StopWatch();
         go.start();
         go.stop();
+        
+
     })();
+
 
 })()
