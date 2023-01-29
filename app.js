@@ -265,10 +265,12 @@ document.title = "Chrome Debugger";
         console.log(person.fullName); // Outputs: "Jane Doe"
     })();
 
-    (() => { /// TODO: use the ^ and instead of the getters and setters, use just regular functions instead. Ask chatGPT what the diff is
-        function Person(firstName, lastName) {
-            this.firstName;
-            this.lastName;
+
+    (() => { /// TODO: compare ^ without the get and only the set
+        function Person(firstName, lastName) {/// git test
+            this._firstName = firstName;
+            this._lastName = lastName;
+
         }
 
         Object.defineProperty(Person.prototype, "fullname", {
