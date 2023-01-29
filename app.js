@@ -290,32 +290,58 @@ document.title = "Chrome Debugger";
         console.log(person); /// with this example, it fixed the lastName from undefined to "Doe"
     })();
 
-    (() => { ///TODO: another example
+    (() => { /// another example
         function BankAccount(balance) {
             this.balance = balance;
 
             Object.defineProperties(this, {
-                newBalance: {
-                    get:function() {
-                        return this.balance;
-                    },
-                    set: function(value) {
-                        this.balance += value;
+                setBalance: {
+                    // get: function() {/// TODO: i did not really need this get here. I can just call the balance up there.
+                                        /// but I do see that I need this get to return a value that the set calculates.
+                    //     return this.balance;
+                    // },
+
+                    set: function(amount) {
+                        this.balance = amount;
                     }
                 },
-                
+                deposit: {
+                    // get: function() {
+                    //     return this.balance;
+                    // },
+                    set: function(amount) {
+                        this.balance += amount;
+                    }
+                },
+                withdraw: {
+                    // get: function() {
+                    //     return this.balance;
+                    // },
+                    set: function(amount) {
+                        this.balance -= amount;
+                    }
+                }
+
             });
         } 
-        console.log(BankAccount);
-        const deposit1 = new BankAccount(100); 
-        console.log(deposit1);
-        deposit1.newBalance = 1;
-        console.log(deposit1.newBalance);
-        deposit1.newBalance = 1;
-        console.log(deposit1.balance);
-        console.log(deposit1);
-    })();
 
+        debugger;
+        console.log(BankAccount);
+        
+        const testTransaction1 = new BankAccount(100); 
+        console.log(testTransaction1);
+        /// setBalance
+        testTransaction1.setBalance = 150;
+        ///deposit
+        testTransaction1.deposit = 50;
+        ///withdrawal
+        testTransaction1.withdraw = 30;
+
+        console.log(testTransaction1.balance)
+        testTransaction1.balance = 58;
+        console.log(testTransaction1.balance);
+    })();
+            
     (() => {
         
         function StopWatch() {
