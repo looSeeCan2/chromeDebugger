@@ -266,7 +266,7 @@ document.title = "Chrome Debugger";
     })();
 
     (() => { /// TODO: compare ^ without the get and only the set
-        function Person(firstName, lastName) {
+        function Person(firstName, lastName) {/// git test
             this._firstName = firstName;
             this._lastName = lastName;
         }
