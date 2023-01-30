@@ -186,13 +186,14 @@ document.title = "Chrome Debugger";
             this.radius = radius;
             //declare private members of the object
             let defaultLocation = {x: 0, y:0};
+            let defaultLocation1 = "test";
             let computeOptimumLocation = function() {
                 console.log("optimuml");
             };
 
             Object.defineProperty(this, "defaultLocationProperty", {
                 get: function() {
-                    return defaultLocation;
+                    return defaultLocation1;
                 }
             });
 
@@ -202,6 +203,7 @@ document.title = "Chrome Debugger";
                 console.log(defaultLocation);
             };
         }
+        debugger;
         const circle4 = new Circle(4);
         console.log(circle4);
         circle4.draw();
@@ -292,33 +294,57 @@ document.title = "Chrome Debugger";
         console.log(person); /// with this example, it fixed the lastName from undefined to "Doe"
     })();
 
-    (() => { /// another example
+    (() => {
+        class Example {
+            constructor() {
+                this._property = '';
+            }
+            get property() {
+                return this._property;
+            }
+            set property(value) {
+                this._property = value;
+            }
+            }
+            
+            const example = new Example();
+            console.log(example);
+            example.property = 'hello';
+            console.log(example.property); // 'hello'
+            example._property = "goodbye";
+            console.log(example._property);
+    })();
+
+    (() =>{
         function BankAccount(balance) {
+            // this.balance = balance;
+            this._balance = balance;
+
+            
+        }
+
+        const testTransAction1 = new BankAccount(100);
+        console.log(testTransAction1);
+        testTransAction1._balance = 2;
+        console.log(testTransAction1._balance);
+    })();
+
+    (() => { /// another example
+        function BankAccount(balance) { 
             this.balance = balance;
 
             Object.defineProperties(this, {
                 setBalance: { /// git test
-                    // get: function() {/// TODO: i did not really need this get here. I can just call the balance up there.
-                                        /// but I do see that I need this get to return a value that the set calculates.
-                    //     return this.balance;
-                    // },
-
                     set: function(amount) {
                         this.balance = amount;
                     }
                 },
                 deposit: {
-                    // get: function() {
-                    //     return this.balance;
-                    // },
                     set: function(amount) {
                         this.balance += amount;
                     }
                 },
                 withdraw: {
-                    // get: function() {
-                    //     return this.balance;
-                    // },
                     set: function(amount) {
                         this.balance -= amount;
                     }
@@ -334,18 +360,39 @@ document.title = "Chrome Debugger";
         console.log(testTransaction1);
         /// setBalance
         testTransaction1.setBalance = 150;
-        ///deposit
+        ///deposit,
         testTransaction1.deposit = 50;
-        ///withdrawal
+        ///withdraw,,al
         testTransaction1.withdraw = 30;
 
         console.log(testTransaction1.balance)
-        testTransaction1.balance = 58;
+        testTransaction1.balance = 58; ///TODO: Im gonna come back to this. I am trying to make this so I can not change the value here. I am going back to watching some
+                                        ///Mosh and moving on. The last 3 or r iffes above are attempts to make the value unconfigurable, but the attempts faled
         console.log(testTransaction1.balance);
     })();
 
+    (() => { ///TODO: this is the only way that I was able to accomplish the above. 
+        function BankAccount(balance) {
+            let _balance = balance;
+            Object.defineProperty(this, "balance", {
+                get: function() {
+                    return _balance;
+                },
+                set: function(amount) {
+                    _balance = amount;
+                },
+                enumerable: true,
+                configurable: false
+            });
+        }
+        const testTransAction1 = new BankAccount(100);
+        console.log(testTransAction1); /// but when I log the object I only see an object with no properties
+
+        console.log(testTransAction1.balance);
+    })();
+    
+    
     (() => {
-        
         function StopWatch() {
             let startTime, endTime, running, duration = 0;
             
